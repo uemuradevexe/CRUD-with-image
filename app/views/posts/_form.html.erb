@@ -1,0 +1,25 @@
+<%= form_with(model: post, local: true) do |form| %>
+  <% if post.errors.any? %>
+    <div class="errors">
+      <h2><%= pluralize(post.errors.count, "erro") %> impediram o salvamento:</h2>
+      <ul>
+        <% post.errors.full_messages.each do |m| %><li><%= m %></li><% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :image, "Foto" %><br>
+    <%= form.file_field :image, accept: "image/*" %>
+    <%# Dica: o form_with vira multipart automaticamente quando tem file_field %>
+  </div>
+
+  <div class="field" style="margin-top: 1rem;">
+    <%= form.label :caption, "Legenda" %><br>
+    <%= form.text_area :caption, rows: 4, placeholder: "Escreva o texto que ficará embaixo da foto..." %>
+  </div>
+
+  <div class="actions" style="margin-top: 1rem;">
+    <%= form.submit %>
+  </div>
+<% end %>
