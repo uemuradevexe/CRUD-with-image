@@ -1,14 +1,43 @@
-<p><%= link_to "Voltar", posts_path %></p>
-
-<% if @post.image.attached? %>
-  <%= image_tag url_for(@post.image.variant(resize_to_limit: [1000, 1000])) %>
-<% end %>
-
-<div style="margin-top: 12px; white-space: pre-wrap;">
-  <%= @post.caption %>
-</div>
-
-<div style="margin-top: 12px; display:flex; gap:8px;">
-  <%= link_to "Editar", edit_post_path(@post) %>
-  <%= link_to "Apagar", @post, data: { turbo_method: :delete, turbo_confirm: "Apagar mesmo?" } %>
+<div class="row justify-content-center">
+  <div class="col-12 col-lg-8">
+    <div class="card shadow-lg">
+      <% if @post.image.attached? %>
+        <%= image_tag url_for(@post.image.variant(resize_to_limit: [1000, 1000])), 
+            class: "card-img-top",
+            style: "max-height: 800px; object-fit: contain;" %>
+      <% end %>
+      
+      <div class="card-body">
+        <p class="card-text fs-5">
+          <i class="bi bi-quote"></i>
+          <%= @post.caption %>
+        </p>
+        
+        <div class="d-flex justify-content-between align-items-center mt-4">
+          <div class="btn-group">
+            <%= link_to edit_post_path(@post), class: "btn btn-outline-primary" do %>
+              <i class="bi bi-pencil"></i> Editar
+            <% end %>
+            
+            <%= link_to @post, 
+                class: "btn btn-outline-danger",
+                data: { 
+                  turbo_method: :delete,
+                  turbo_confirm: "Tem certeza que deseja apagar este post?" 
+                } do %>
+              <i class="bi bi-trash"></i> Apagar
+            <% end %>
+          </div>
+          
+          <%= link_to posts_path, class: "btn btn-outline-secondary" do %>
+            <i class="bi bi-arrow-left"></i> Voltar
+          <% end %>
+        </div>
+      </div>
+      
+      <div class="card-footer text-muted">
+        <i class="bi bi-clock"></i> Postado <%= time_ago_in_words(@post.created_at) %> atrás
+      </div>
+    </div>
+  </div>
 </div>
